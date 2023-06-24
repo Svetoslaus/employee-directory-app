@@ -43,7 +43,6 @@ public class EmployeeController {
         return new ResponseEntity<Employee>(newEmployee, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/employee")
     public ResponseEntity delete(@RequestParam(value = "id") int id){
 
@@ -53,5 +52,36 @@ public class EmployeeController {
             return new ResponseEntity("Employee deleted", HttpStatus.OK);
         }
         return new ResponseEntity("No Employee found by Id " + id, HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/employee")
+    public ResponseEntity<Employee> edit(@RequestBody Employee editedEmployee){
+
+        Optional<Employee> employeeInDB = employeeRepository.findById(editedEmployee.getId());
+
+        if(employeeInDB.isPresent()){
+            //update employee
+            Employee saveEmployee = employeeRepository.save(editedEmployee);
+            return new ResponseEntity<Employee>(saveEmployee, HttpStatus.OK);
+        }
+
+        return new ResponseEntity("No employee to update found by id " + editedEmployee.getId(), HttpStatus.NOT_FOUND);
+    }
+
+
+    @PatchMapping("/employee/setDone")
+    public ResponseEntity<Employee> setDone(@RequestParam(value = "isDone") boolean isDone,
+                                            @RequestParam(value = "id") int id){
+
+        //find id in DB
+        Optional<Employee> employeeInDB = employeeRepository.findById(id);
+
+        if(employeeInDB.isPresent()){
+            //update employee isDone
+            employeeInDB.get().setIsDone(isDone);
+            Employee saveEmployee = employeeRepository.save(employeeInDB.get());
+            return new ResponseEntity<Employee>(saveEmployee, HttpStatus.OK);
+        }
+        return new ResponseEntity("No employee to update found by id " + id, HttpStatus.NOT_FOUND);
     }
 }
