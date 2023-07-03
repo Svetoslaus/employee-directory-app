@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Catalog Employees</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+              rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    </head>
+<body>
+
+
+
+<h4>Employee Search</h4>
+<form id="searchForm">
+    <label for="query">Search by Skill:</label>
+    <input type="text" id="query" name="query" required>
+    <button type="submit">Search</button>
+</form>
+<hr>
+<div id="results"></div>
+
+<script>
+        const form = document.getElementById('searchForm');
+        const resultsContainer = document.getElementById('results');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            searchEmployees(query);
+        });
+
+        function searchEmployees(query) {
+            fetch(`/employees/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    let results = '';
+                    data.forEach(employee => {
+                        results += `<p>Employee ID: ${employee.id}</p>`;
+                        results += `<p>Name: ${employee.firstName} ${employee.lastName}</p>`;
+                        results += `<p>Address: ${employee.address}</p>`;
+                        results += `<p>Skill: ${employee.skill}</p>`;
+                        results += `<p>Skill Rate: ${employee.skillRate}</p>`;
+                        results += '<hr>';
+                    });
+                    resultsContainer.innerHTML = results;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+
+
+
+
+
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Employees Catalog</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/employees}">Catalog</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+<div class = "container">
+    <div class = "row">
+        <h1> List Employees </h1>
+    </div>
+
+    <div class = "row">
+        <div class = "col-lg-3">
+           <a th:href = "@{/employees/new}" class = "btn btn-primary btn-sm mb-3">Add Employee</a>
+        </div>
+    </div>
+
+    <table class = "table table-striped table-bordered">
+        <thead class = "table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Skill</th>
+            <th>Skill Rate</th>
+            <th>Change</th>
+        </tr>
+        </thead>
+
+        <tbody>
+               <tr th:each="employee: ${employees}">
+                   <td th:text = "${employee.firstName}"></td>
+                   <td th:text = "${employee.lastName}"></td>
+                   <td th:text = "${employee.address}"></td>
+                   <td th:text = "${employee.skill}"></td>
+                   <td th:text = "${employee.skillRate}"></td>
+                   <td>
+                       <a th:href = "@{/employees/edit/{id}(id=${employee.id})}"
+                                   class = "btn btn-primary">Update</a>
+
+                       <a th:href = "@{/employees/{id}(id=${employee.id})}"
+                          class = "btn btn-primary">Delete</a>
+                   </td>
+               </tr>
+        </tbody>
+
+    </table>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

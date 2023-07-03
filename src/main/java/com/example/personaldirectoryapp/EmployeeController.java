@@ -1,87 +1,80 @@
 package com.example.personaldirectoryapp;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.util.List;
 import java.util.Optional;
 
 //Requests
-@RestController
+
+@Controller
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
+    private EmployeeService employeeService;
 
-    @GetMapping("/employee")
-    public ResponseEntity<Employee> get(@RequestParam(value = "id") int id){
-
-        //get emlpoyee from db by id
-        Optional<Employee>employeeInDB = employeeRepository.findById(id);
-
-        if(employeeInDB.isPresent()){
-            return new ResponseEntity<Employee>(employeeInDB.get(), HttpStatus.OK);
-        }
-
-        return new ResponseEntity("No Employee found by id " + id, HttpStatus.NOT_FOUND);
+    public EmployeeController(EmployeeService employeeService) {
+        super();
+        this.employeeService = employeeService;
     }
 
-
-    @GetMapping("/employee/all")
-    public ResponseEntity<Iterable<Employee>> getAll(){
-        Iterable<Employee> allEmployeeInDB = employeeRepository.findAll();
-        return new ResponseEntity<Iterable<Employee>>(allEmployeeInDB, HttpStatus.OK);
+    @GetMapping("/employees")
+    public String listEmployees(Model model){
+       // model.addAttribute("employees", employeeService.getAllEmployees());
+        List<Employee> employees = employeeService.getAllEmployees();
+        model.addAttribute("employees", employees);
+        return "employees";
     }
 
-    @PostMapping("/employee")
-    public ResponseEntity<Employee> create(@RequestBody Employee newEmployee){
-        //save employee in db
-        employeeRepository.save(newEmployee);
-        return new ResponseEntity<Employee>(newEmployee, HttpStatus.OK);
+    @GetMapping("/employees/new")
+    public String createEmployeeForm(Model model){
+        Employee employee = new Employee();
+        model.addAttribute("employee", employee);
+        return "create_employee";
     }
 
-    @DeleteMapping("/employee")
-    public ResponseEntity delete(@RequestParam(value = "id") int id){
-
-        Optional<Employee> employeeInDB = employeeRepository.findById(id);
-        if(employeeInDB.isPresent()){
-            employeeRepository.deleteById(id);
-            return new ResponseEntity("Employee deleted", HttpStatus.OK);
-        }
-        return new ResponseEntity("No Employee found by Id " + id, HttpStatus.NOT_FOUND);
+    @PostMapping("/employees")
+    public String saveEmployee(@ModelAttribute("employee") Employee employee){
+        employeeService.saveEmployee(employee);
+        return "redirect:/employees";
     }
 
-    @PutMapping("/employee")
-    public ResponseEntity<Employee> edit(@RequestBody Employee editedEmployee){
-
-        Optional<Employee> employeeInDB = employeeRepository.findById(editedEmployee.getId());
-
-        if(employeeInDB.isPresent()){
-            //update employee
-            Employee saveEmployee = employeeRepository.save(editedEmployee);
-            return new ResponseEntity<Employee>(saveEmployee, HttpStatus.OK);
-        }
-
-        return new ResponseEntity("No employee to update found by id " + editedEmployee.getId(), HttpStatus.NOT_FOUND);
+    @GetMapping("/employees/edit/{id}")
+    public String editEmployeeForm(@PathVariable Long id, Model model){
+        model.addAttribute("employee", employeeService.getEmployeeById(id));
+        return "edit_employee";
     }
 
+    @PostMapping("/employees/{id}")
+    public String updateEmployee(@PathVariable Long id,
+                                 @ModelAttribute("employee") Employee employee){
+        //get employee from DB
+        Employee existingEmployee = employeeService.getEmployeeById(id);
+        existingEmployee.setId(id);
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setAddress(employee.getAddress());
+        existingEmployee.setSkill(employee.getSkill());
+        existingEmployee.setSkillRate(employee.getSkillRate());
 
-    @PatchMapping("/employee/setDone")
-    public ResponseEntity<Employee> setDone(@RequestParam(value = "isDone") boolean isDone,
-                                            @RequestParam(value = "id") int id){
+        employeeService.updateEmployee(existingEmployee);
+        return "redirect:/employees";
+    }
 
-        //find id in DB
-        Optional<Employee> employeeInDB = employeeRepository.findById(id);
+    @GetMapping("/employees/{id}")
+    public String deleteEmployee(@PathVariable Long id){
+        employeeService.deleteEmployeeById(id);
+        return "redirect:/employees";
+    }
 
-        if(employeeInDB.isPresent()){
-            //update employee isDone
-            employeeInDB.get().setIsDone(isDone);
-            Employee saveEmployee = employeeRepository.save(employeeInDB.get());
-            return new ResponseEntity<Employee>(saveEmployee, HttpStatus.OK);
-        }
-        return new ResponseEntity("No employee to update found by id " + id, HttpStatus.NOT_FOUND);
+    @GetMapping("/employees/search")
+    public ResponseEntity<List<Employee>> searchSkills(@RequestParam("query") String query) {
+        List<Employee> employees = employeeService.searchSkills(query);
+        return ResponseEntity.ok(employees);
     }
 }

@@ -4,24 +4,47 @@ import jakarta.persistence.*;
 
 import java.util.List;
 @Entity
+@Table(name ="employees")
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String address;
-
-
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "address")
+    private String address;
+    @Column(name = "skill")
     private String skill;
-
-    private boolean isDone;
-
+    @Column(name = "skill_rate")
     private Integer skillRate;
+
+    public Employee(){
+
+    }
+
+    public Employee(String firstName, String lastName, String address, String skill, Integer skillRate) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.skill = skill;
+        this.skillRate = skillRate;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Integer getSkillRate() {
         return skillRate;
@@ -31,8 +54,6 @@ public class Employee {
         this.skillRate = skillRate;
     }
 
-    @ManyToOne
-    private Catalog catalog;
 
     public String getSkill() {
         return skill;
@@ -59,31 +80,11 @@ public class Employee {
     }
 
 
-
-    public void setId(Integer id){
-        this.id = id;
+    public String getAddress() {
+        return address;
     }
 
-    public Integer getId(){
-        return this.id;
-    }
-
-    public void setAddress(String address){
+    public void setAddress(String address) {
         this.address = address;
     }
-
-    public String getAddress(){
-        return this.address;
-    }
-
-    public void setIsDone(boolean isDone){
-        this.isDone = isDone;
-    }
-
-    public boolean getIsDone(){
-        return this.isDone;
-    }
-
-
-
 }
