@@ -28,11 +28,18 @@ public class Employee {
     @Column(name="start_date")
     private LocalDate startDate;
 
+    @Column(name="department")
+    private String department;
+
+    @Column(name="end_date")
+    private LocalDate endDate;
+
     public Employee(){
 
     }
 
-    public Employee(String firstName, String lastName, String address, String skill, Integer skillRate, LocalDate startDate) {
+    public Employee(String firstName, String lastName, String address, String skill,
+                    Integer skillRate, LocalDate startDate, LocalDate endDate, String department) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,8 +47,9 @@ public class Employee {
         this.skill = skill;
         this.skillRate = skillRate;
         this.startDate = startDate;
+        this.endDate = endDate;
+        this.department = department;
     }
-
 
     public Long getId() {
         return id;
@@ -99,5 +107,21 @@ public class Employee {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

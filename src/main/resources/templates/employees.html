@@ -11,45 +11,6 @@
 
 
 
-<h4>Employee Search</h4>
-<form id="searchForm">
-    <label for="query">Search by Skill:</label>
-    <input type="text" id="query" name="query" required>
-    <button type="submit">Search</button>
-</form>
-<br>
-<div id="results"></div>
-
-<script>
-        const form = document.getElementById('searchForm');
-        const resultsContainer = document.getElementById('results');
-
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const query = document.getElementById('query').value;
-            searchEmployees(query);
-        });
-
-        function searchEmployees(query) {
-            fetch(`/employees/search?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    let results = '';
-                    data.forEach(employee => {
-                        results += `<p>Employee ID: ${employee.id}</p>`;
-                        results += `<p>Name: ${employee.firstName} ${employee.lastName}</p>`;
-                        results += `<p>Address: ${employee.address}</p>`;
-                        results += `<p>Skill: ${employee.skill}</p>`;
-                        results += `<p>Skill Rate: ${employee.skillRate}</p>`;
-                        results += '<hr>';
-                    });
-                    resultsContainer.innerHTML = results;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    </script>
 
 
 
@@ -90,6 +51,47 @@
         <h1> List Employees </h1>
     </div>
 
+    <br>
+
+    <form id="searchForm">
+        <input type="text" id="query" name="query" required>
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <div id="results"></div>
+
+    <script>
+        const form = document.getElementById('searchForm');
+        const resultsContainer = document.getElementById('results');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+            searchEmployees(query);
+        });
+
+        function searchEmployees(query) {
+            fetch(`/employees/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    let results = '';
+                    data.forEach(employee => {
+                        results += `<p>Employee ID: ${employee.id}</p>`;
+                        results += `<p>Name: ${employee.firstName} ${employee.lastName}</p>`;
+                        results += `<p>Address: ${employee.address}</p>`;
+                        results += `<p>Skill: ${employee.skill}</p>`;
+                        results += `<p>Skill Rate: ${employee.skillRate}</p>`;
+                        results += '<hr>';
+                    });
+                    resultsContainer.innerHTML = results;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+
+
     <div class = "row">
         <div class = "col-lg-3">
             <a th:href = "@{/employees/new}" class = "btn btn-primary btn-sm mb-3">Add Employee</a>
@@ -104,7 +106,9 @@
             <th>Email</th>
             <th>Skill</th>
             <th>Skill Rate</th>
+            <th>Department</th>
             <th>Start Date</th>
+            <th>End Date</th>
             <th>Change</th>
         </tr>
         </thead>
@@ -116,7 +120,10 @@
             <td th:text = "${employee.address}"></td>
             <td th:text = "${employee.skill}"></td>
             <td th:text = "${employee.skillRate}"></td>
+            <td th:text=  "${employee.department}"></td>
             <td th:text=  "${employee.startDate}"></td>
+            <td th:text=  "${employee.endDate}"></td>
+
             <td>
                 <a th:href = "@{/employees/edit/{id}(id=${employee.id})}"
                    class = "btn btn-primary">Update</a>
