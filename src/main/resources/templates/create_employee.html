@@ -32,90 +32,95 @@
 
 
 
-     <div class="container">
-         <br>
-         <div class="row">
-             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-                <h1 class>Create New Profile</h1>
-                 <div class = "card-body">
-                     <form th:action="@{/employees}" th:object = "${employee}" method="POST">
-                         <div class = "form-group">
+<div class="container">
+    <br>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class>Create New Profile</h1>
+            <div class = "card-body">
+                <form th:action="@{/employees}" th:object = "${employee}" method="POST">
+                    <div class = "form-group">
 
-                             <input
-                                     type="text"
-                                     name="firstName"
-                                     th:field="*{firstName}"
-                                     class = "form-control"
-                                     placeholder="Employee First Name"
-                             />
-                         </div>
-                         <br>
+                        <input
+                                type="text"
+                                name="firstName"
+                                th:field="*{firstName}"
+                                class = "form-control"
+                                placeholder="Employee First Name"
+                        />
+                    </div>
+                    <br>
 
-                             <div class = "form-group">
+                    <div class = "form-group">
 
-                                 <input
-                                         type="text"
-                                         name="lastName"
-                                         th:field="*{lastName}"
-                                         class = "form-control"
-                                         placeholder="Employee Last Name"
-                                 />
+                        <input
+                                type="text"
+                                name="lastName"
+                                th:field="*{lastName}"
+                                class = "form-control"
+                                placeholder="Employee Last Name"
+                        />
 
-                         </div>
-                         <br>
-                         <div class = "form-group">
+                    </div>
+                    <br>
+                    <div class = "form-group">
 
-                             <input
-                                     type="text"
-                                     name="skill"
-                                     th:field="*{skill}"
-                                     class = "form-control"
-                                     placeholder="Employee Skill"
-                             />
+                        <input
+                                type="text"
+                                name="skill"
+                                th:field="*{skill}"
+                                class = "form-control"
+                                placeholder="Employee Skill"
+                        />
 
-                         </div>
-                         <br>
+                    </div>
+                    <br>
 
-                         <div class = "form-group">
+                    <div class = "form-group">
 
-                             <input
-                                     type="text"
-                                     name="skill"
-                                     th:field="*{address}"
-                                     class = "form-control"
-                                     placeholder="Employee Address"
-                             />
+                        <input
+                                type="text"
+                                name="skill"
+                                th:field="*{address}"
+                                class = "form-control"
+                                placeholder="Employee Address"
+                        />
 
-                         </div>
-                         <br>
+                    </div>
+                    <br>
 
-                         <div class = "form-group">
+                    <div class = "form-group">
 
-                             <input
-                                     type="rate"
-                                     name="skillRate"
-                                     th:field="*{skillRate}"
-                                     class = "form-control"
-                                     placeholder="Employee Skill Rate"
-                             />
+                        <input
+                                type="rate"
+                                name="skillRate"
+                                th:field="*{skillRate}"
+                                class = "form-control"
+                                placeholder="Employee Skill Rate"
+                        />
 
-                         </div>
-                         <br>
-
-                       <div class = "box-footer">
-                           <br>
-                           <button type="submit" class="btn btn-primary">
-                               Submit
-                           </button>
-                       </div>
+                    </div>
+                    <br>
 
 
-                     </form>
-                 </div>
-             </div>
-         </div>
+                    </div>
+                    <br>
 
-     </div>
+
+                    <div class = "box-footer">
+                        <br>
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

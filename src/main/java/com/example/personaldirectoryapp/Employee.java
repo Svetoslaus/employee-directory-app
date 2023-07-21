@@ -2,6 +2,7 @@ package com.example.personaldirectoryapp;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @Entity
 @Table(name ="employees")
@@ -23,18 +24,22 @@ public class Employee {
     private String skill;
     @Column(name = "skill_rate")
     private Integer skillRate;
+    @Temporal(TemporalType.DATE)
+    @Column(name="start_date")
+    private LocalDate startDate;
 
     public Employee(){
 
     }
 
-    public Employee(String firstName, String lastName, String address, String skill, Integer skillRate) {
+    public Employee(String firstName, String lastName, String address, String skill, Integer skillRate, LocalDate startDate) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.skill = skill;
         this.skillRate = skillRate;
+        this.startDate = startDate;
     }
 
 
@@ -86,5 +91,13 @@ public class Employee {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 }

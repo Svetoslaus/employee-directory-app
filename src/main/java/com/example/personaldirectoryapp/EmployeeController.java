@@ -25,7 +25,7 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public String listEmployees(Model model){
-       // model.addAttribute("employees", employeeService.getAllEmployees());
+        // model.addAttribute("employees", employeeService.getAllEmployees());
         List<Employee> employees = employeeService.getAllEmployees();
         model.addAttribute("employees", employees);
         return "employees";
@@ -61,6 +61,7 @@ public class EmployeeController {
         existingEmployee.setAddress(employee.getAddress());
         existingEmployee.setSkill(employee.getSkill());
         existingEmployee.setSkillRate(employee.getSkillRate());
+        existingEmployee.setStartDate(employee.getStartDate());
 
         employeeService.updateEmployee(existingEmployee);
         return "redirect:/employees";
