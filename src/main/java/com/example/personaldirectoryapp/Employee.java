@@ -2,8 +2,9 @@ package com.example.personaldirectoryapp;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalTime;
+
+
 @Entity
 @Table(name ="employees")
 public class Employee {
@@ -24,22 +25,21 @@ public class Employee {
     private String skill;
     @Column(name = "skill_rate")
     private Integer skillRate;
-    @Temporal(TemporalType.DATE)
-    @Column(name="start_date")
-    private LocalDate startDate;
-
     @Column(name="department")
     private String department;
 
+    @Column(name="start_date")
+    private LocalTime startDate;
+
     @Column(name="end_date")
-    private LocalDate endDate;
+    private LocalTime endDate;
 
     public Employee(){
 
     }
 
     public Employee(String firstName, String lastName, String address, String skill,
-                    Integer skillRate, LocalDate startDate, LocalDate endDate, String department) {
+                    Integer skillRate, LocalTime startDate, LocalTime endDate, String department) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -101,19 +101,19 @@ public class Employee {
         this.address = address;
     }
 
-    public LocalDate getStartDate() {
+    public LocalTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalTime endDate) {
         this.endDate = endDate;
     }
 

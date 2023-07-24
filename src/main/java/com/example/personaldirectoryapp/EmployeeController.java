@@ -61,9 +61,10 @@ public class EmployeeController {
         existingEmployee.setAddress(employee.getAddress());
         existingEmployee.setSkill(employee.getSkill());
         existingEmployee.setSkillRate(employee.getSkillRate());
+        existingEmployee.setDepartment(employee.getDepartment());
         existingEmployee.setStartDate(employee.getStartDate());
         existingEmployee.setEndDate(employee.getEndDate());
-        existingEmployee.setDepartment(employee.getDepartment());
+
 
         employeeService.updateEmployee(existingEmployee);
         return "redirect:/employees";
